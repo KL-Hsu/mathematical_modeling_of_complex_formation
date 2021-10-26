@@ -5,7 +5,7 @@ import numpy as np
 import pylab as pl
 from pylab import meshgrid, imshow, contour, clabel, title, show
 from .Models_and_solvers import numerical_solver_trimer
-from .Stoichiometry_maintenance import color_obj
+from .Robustness import color_obj
 
 def draw_dimer_without(lam1, lam2, lam3, K, c2, fold, normalize):
     c1 = np.linspace(0.000001*c2, fold*c2, 101)
@@ -85,7 +85,7 @@ def draw_dimer_response(lam1=0.027, lam2=0.027, lam3=0.027, K=0.05, c2=98, fold=
     plt.legend(bbox_to_anchor=[1.1, 0.8])
     #ax.xaxis.set_major_locator(ticker.MultipleLocator(50))
     plt.tick_params(width=5, length=6, labelsize=20)
-    
+    plt.title('Heterodimer response', font2)
     ax1=plt.gca()
     
     ax_linewidth = 5
@@ -159,7 +159,7 @@ def draw_trimer_response(scenario_ls, xmiddle=98, who='c1'):
     
     #try:
     for i in range(len(scenario_ls)):
-        p123_draw_trimer(scenario_ls[i], xmiddle=xmiddle, who=who, code='scenario '+str(i), linewidth=linewidth, color=color_ls[i])
+        p123_draw_trimer(scenario_ls[i], xmiddle=xmiddle, who=who, code='scenario '+str(i+1), linewidth=linewidth, color=color_ls[i])
 
    
     ax.yaxis.set_major_locator(ticker.MultipleLocator(0.5))
@@ -177,11 +177,12 @@ def draw_trimer_response(scenario_ls, xmiddle=98, who='c1'):
     ax1.spines['left'].set_linewidth(ax_linewidth)
     ax1.spines['right'].set_linewidth(ax_linewidth)
     ax1.spines['top'].set_linewidth(ax_linewidth)
-    
+
+    plt.title('Heteromeric trimer response', font2)
     plt.ylabel('Normalized Abundance', font2)
     plt.xlabel('Relative $p_%s$ synthesis rate (%%)'%who[-1], font2)
     plt.ylim(0, 1.5)
-    plt.legend(bbox_to_anchor=(1.1, 1))
+    plt.legend(bbox_to_anchor=(1.2, 1))
     plt.show()
 
 class controllability:
