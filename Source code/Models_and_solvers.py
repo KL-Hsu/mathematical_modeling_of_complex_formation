@@ -1,6 +1,7 @@
-from sympy import Symbol, solve, simplify, nsolve
+from sympy import Symbol, solve, simplify, nsolve, symbols
 from collections import Iterable
 from scipy.integrate import odeint 
+import numpy as np
 
 class heterodimer():
 
@@ -327,7 +328,7 @@ class closed_circuit():
         p3_s = p3_ss
 
 
-        if others == False:
+        if return_others == False:
             return p1_s, p2_s, p3_s
         else:
             return p1_s, p2_s, p3_s, m1_sol, m2_sol, TF1, TF2, mt1, mt2
