@@ -146,9 +146,10 @@ def p123_draw_trimer(scenario, code, xmiddle=98, who='c1',linewidth=3, color=col
 
     plt.plot(np.array(list(_arr)+list(arr_))/xmiddle*100, np.array(_p123[::-1]+p123_)/p123_[0], linewidth=linewidth,label=code, color=color)
 
-    print(scenario)
-    print((1 - (_p123[0]-_p123[50])/_p123[0])*100, (p123_[50])/p123_[0]*100)
-    print(_p123[0])
+    print('(lam1, lam2, lam3, lam12, lam123)=', scenario)
+    print('Downward response (%):\t', (1 - (_p123[0]-_p123[50])/_p123[0])*100)
+    print('Upward response (%):\t',(p123_[50])/p123_[0]*100)
+
     
 def draw_trimer_response(scenario_ls, xmiddle=98, who='c1'):
     
@@ -161,7 +162,6 @@ def draw_trimer_response(scenario_ls, xmiddle=98, who='c1'):
     for i in range(len(scenario_ls)):
         p123_draw_trimer(scenario_ls[i], xmiddle=xmiddle, who=who, code='scenario '+str(i+1), linewidth=linewidth, color=color_ls[i])
 
-   
     ax.yaxis.set_major_locator(ticker.MultipleLocator(0.5))
     ax.xaxis.set_major_locator(ticker.MultipleLocator(50))
     plt.tick_params(width=ax_linewidth, labelsize=20,length=6)
