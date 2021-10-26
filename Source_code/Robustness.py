@@ -1,6 +1,6 @@
 from matplotlib import pyplot as plt
 import matplotlib.ticker as ticker
-from collections import Iterable
+from mpl_toolkits.mplot3d import axes3d
 from numpy import sqrt, arange
 import numpy as np
 import pylab as pl
@@ -205,3 +205,44 @@ def tolerance_score_heatmap(lam1=0.027, lam3=0.027,c_min=1,c_max=1000,k_min=0.00
     pl.ylabel('$log_{10}K$ $(nM⁻¹)$', font2)
 
     show()
+
+def tolerance_score_heatmap3D(lam_min=0.027, lam_max=0.7, k_min=0.001, k_max=1, c2=10, offset=0, resolution=100):
+    font1 = {'family' : 'Times New Roman',
+    'weight' : 'normal',
+    'size'   : 16}
+    
+    font2 = {'family' : 'Times New Roman',
+    'weight' : 'normal',
+    'size'   : 12}
+
+
+    fig = plt.figure(figsize=(12, 9))
+    ax = fig.add_subplot(111, projection='3d')
+
+    k_plot_log = np.linspace(np.log10(k_min), np.log10(k_max), resolution)
+    k_plot_linear = 10**k_plot_log
+
+
+    #generate x and y array within range
+    x = np.linspace(lam_min, lam_max, resolution)
+    y = np.logspace(np.log10(k_min), np.log10(k_max), resolution)
+
+    #generate X and Y matrix for ploting in 3D or contour plot
+    lam_range, k_range = np.meshgrid(x, y)
+    #evaluation of the function
+    Z = tolerance_score(lam1=lam_range, K=k_range, c2=c2)
+    lam_ratio = lam_range/lam_min
+    
+    plt.title('Tolerance Score\n', font1)
+
+    ax.plot_surface(lam_ratio, np.log10(k_range), Z, linewidth=0,cmap=plt.get_cmap('jet'),zorder=5,
+                   rcount=100, ccount=100)    
+
+    plt.xlabel('$\u03BB_{mono}/\u03BB_{dimer}$',font2)
+    plt.ylabel('$log_{10}(K) (nM⁻¹)$', font2)
+    ax.set_zlabel('Tolerance Score',font2)
+
+    ax.set_zlim(0, 10)
+    ax.view_init(30, -120)
+
+    plt.show()
