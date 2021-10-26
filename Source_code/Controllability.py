@@ -4,8 +4,8 @@ from numpy import sqrt, arange
 import numpy as np
 import pylab as pl
 from pylab import meshgrid, imshow, contour, clabel, title, show
-from Models_and_solvers import numerical_solver_trimer
-from Stoichiometry_maintenance import color_obj
+from .Models_and_solvers import numerical_solver_trimer
+from .Stoichiometry_maintenance import color_obj
 
 def draw_dimer_without(lam1, lam2, lam3, K, c2, fold, normalize):
     c1 = np.linspace(0.000001*c2, fold*c2, 101)
@@ -150,12 +150,11 @@ def p123_draw_trimer(scenario, code, xmiddle=98, who='c1',linewidth=3, color=col
     print((1 - (_p123[0]-_p123[50])/_p123[0])*100, (p123_[50])/p123_[0]*100)
     print(_p123[0])
     
-def draw_trimer_response(scenario_ls, xmiddle=98, who='c1', **kwargs):
+def draw_trimer_response(scenario_ls, xmiddle=98, who='c1'):
     
     linewidth=7
     ax_linewidth = 5
     figure, ax = plt.subplots(figsize=(9, 6))
-    code_ls = kwargs.get('code_ls')
     color_ls= ['k', color_obj.rbg[0]]
     
     #try:
@@ -182,7 +181,7 @@ def draw_trimer_response(scenario_ls, xmiddle=98, who='c1', **kwargs):
     plt.ylabel('Normalized Abundance', font2)
     plt.xlabel('Relative $p_%s$ synthesis rate (%%)'%who[-1], font2)
     plt.ylim(0, 1.5)
-    plt.legend(bbox_to_anchor=(1.2, 1))
+    plt.legend(bbox_to_anchor=(1.1, 1))
     plt.show()
 
 class controllability:

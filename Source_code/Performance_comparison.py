@@ -1,11 +1,12 @@
 from sympy import Polygon
 import numpy as np 
+from itertools import combinations as comb
 
-def owo_1000(o_wo, ls2):
+def owo_1000(ls1, ls2):
     n = 0
     m = 0
     t = 0
-    for i in o_wo:
+    for i in ls1:
         key = i[0]
         ls = ls2[n:n+10]
         for j in ls:
@@ -17,11 +18,11 @@ def owo_1000(o_wo, ls2):
 
     return m*10, t*10
     
-def owo_10000(o_wo, ls2):
+def owo_10000(ls1, ls2):
     n = 0
     m = 0
     t = 0
-    for i in o_wo:
+    for i in ls1:
         key = i[0]
         ls = ls2[n:n+100]
         for j in ls:
@@ -110,17 +111,17 @@ def convert_com(compare):
         ori = compare[i]
         compare[i] = 10000-ori
 
-def multi_comparison(l):
+def multi_comparison(l, result_dict):
     lst = ['owo', 'owith', 'cwo', 'cwith']
     score = {}
     compare = {}
     for i in lst:
         score[i] = 0
     
-    owo = globals()['o_wo_'+l]
-    owith = globals()['o_with_'+l]
-    cwo = globals()['c_wo_'+l]
-    cwith = globals()['c_with_'+l]
+    owo = result_dict['o_wo_'+l]
+    owith = result_dict['o_with_'+l]
+    cwo = result_dict['c_wo_'+l]
+    cwith = result_dict['c_with_'+l]
     
     s1, t = owo_1000(owo, owith)
     s2 = 10000 - s1 - t
@@ -253,8 +254,8 @@ def multi_comparison(l):
 
     return LS, compare
 
-def obtain_N(l):
-    LS, compare_x = multi_comparison(l)
+def obtain_N(l, result_dict, ranking_ls):
+    LS, compare_x = multi_comparison(l, result_dict)
     P = 0
     for j in range(len(ranking_ls)):
         ls = ranking_ls[j]
@@ -268,7 +269,7 @@ def obtain_N(l):
         P += p
     return P, compare_x
 
-def P_per_rank(compare_x, N):
+def P_per_rank(compare_x, N, ranking_ls):
     LS_ = []
     for j in range(len(ranking_ls)):
         ls = ranking_ls[j]
@@ -283,17 +284,17 @@ def P_per_rank(compare_x, N):
     return LS_
 
 
-def obtain_ranking_prob_per_circuit(l, circuit, normalize=True):
+def obtain_ranking_prob_per_circuit(l, circuit, variables, normalize=True):
     P_ = []
     for j in range(4):
         p = 0
         if normalize == True:
-            for i in P_rank_N[l]:
+            for i in variables.P_rank_N[l]:
                 if i[0][j] == circuit:
                     p+=i[1]
             P_.append(p)
         else:
-            for i in P_rank[l]:
+            for i in variables.P_rank[l]:
                 if i[0][j] == circuit:
                     p+=i[1]
             P_.append(p)
@@ -320,11 +321,11 @@ def rescale(s):
     N = 3*(s-0.5)/2.5
     return N
 
-def scores_for_radar(l, normalize=True, rescaling=True):
+def scores_for_radar(l, variables,normalize=True, rescaling=True):
     circuit_name = ['owo', 'owith', 'cwo','cwith']
     Ls = []
     for j in circuit_name:
-        P_ = obtain_ranking_prob_per_circuit(l,j, normalize=normalize)
+        P_ = obtain_ranking_prob_per_circuit(l,j, variables, normalize=normalize)
         Lst = gen_coordinate(P_)
         if rescaling == True:
             score = rescale(cal_area(Lst))
@@ -333,3 +334,19 @@ def scores_for_radar(l, normalize=True, rescaling=True):
         Ls.append(score)
     return Ls 
 
+
+class variables():
+    suffix_n= ['efficiency_n', 'recover_n', 'downward_n', 'ratio_n',
+                'turn_off_n','ratio_2_n','upward_n','turn_on_200_n']
+    circuits = ['o_wo', 'o_with', 'c_wo','c_with']
+
+    def __init__(self, result_dict, ranking_ls):
+        P_rank = {}
+        P_rank_N = {} 
+        for i in self.suffix_n:
+            N, compare_x = obtain_N(i, result_dict, ranking_ls)
+            P_rank_N[i] = P_per_rank(compare_x, N, ranking_ls)
+            P_rank[i] = P_per_rank(compare_x, 1, ranking_ls)
+        
+        self.P_rank = P_rank
+        self.P_rank_N = P_rank_N 

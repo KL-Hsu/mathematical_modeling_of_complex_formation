@@ -1,5 +1,5 @@
 import numpy as np 
-from Models_and_solvers import com_v
+from .Models_and_solvers import com_v
 import time
 
 
@@ -119,9 +119,10 @@ def performance_ss(open_func, closed_func, n=2, fc=1, l='_label'):
     start = time.time()
     n = n
 
-    ls = ['o_wo', 'o_with',  'c_with', 'c_wo']
-    for i in ls:
-        globals()[i+l] = []
+    o_wo = []
+    o_with = []
+    c_with = []
+    c_wo = []
 
     x = np.logspace(-6, -3, n) #Disscociation constant 
     y = np.logspace(np.log10(0.036), np.log10(36.3037), n) #Protein synthesis rate
@@ -137,7 +138,6 @@ def performance_ss(open_func, closed_func, n=2, fc=1, l='_label'):
     Z, W = np.meshgrid(z, w)
 
     first_layer = [np.ravel(X), np.ravel(Y)]
-    second_layer = [np.ravel(Z), np.ravel(W)]
 
     m = 0
     for i in range(len(first_layer[0])):
@@ -148,7 +148,7 @@ def performance_ss(open_func, closed_func, n=2, fc=1, l='_label'):
         syn_scale = first_layer[1][i]
         e = open_func(fc=fc, kon=kon, syn_scale=syn_scale)
         config = (kon, syn_scale, coop, K)
-        globals()[ls[0]+l].append((e, config))
+        o_wo.append((e, config))
         m += 1
 
         for j in range(len(z)):
@@ -156,14 +156,14 @@ def performance_ss(open_func, closed_func, n=2, fc=1, l='_label'):
             coop = z[j]
             e = open_func(fc=fc, coop=coop, kon=kon, syn_scale=syn_scale)
             config = (kon, syn_scale, coop, K)
-            globals()[ls[1]+l].append((e, config))
+            o_with.append((e, config))
             m += 1
 
             for s in range(len(w)):
                 K = w[s]
                 e = closed_func(fc=fc, coop=coop, kon=kon, syn_scale=syn_scale, K=K)
                 config = (kon, syn_scale, coop, K)
-                globals()[ls[2]+l].append((e, config))
+                c_with.append((e, config))
                 m += 1
 
         coop = 0
@@ -171,20 +171,23 @@ def performance_ss(open_func, closed_func, n=2, fc=1, l='_label'):
             K = w[j]
             e = closed_func(fc=fc, kon=kon, syn_scale=syn_scale, K=K)
             config = (kon, syn_scale, coop, K)
-            globals()[ls[3]+l].append((e, config))
+            c_wo.append((e, config))
             m += 1
 
     end = time.time()
     print(end-start)
     print(m)
+    return o_wo, o_with, c_wo, c_with
 
 def performance_d(open_func, closed_func, n=2, shot=1, translation=True, l='_label'):
     start = time.time()
     n = n
 
-    ls = ['o_wo', 'o_with',  'c_with', 'c_wo']
-    for i in ls:
-        globals()[i+l] = []
+    o_wo = []
+    o_with = []
+    c_with = []
+    c_wo = []
+
 
     x = np.logspace(-6, -3, n) #Disscociation constant 
     y = np.logspace(np.log10(0.036), np.log10(36.3037), n) #Protein synthesis rate
@@ -210,7 +213,7 @@ def performance_d(open_func, closed_func, n=2, shot=1, translation=True, l='_lab
         syn_scale = first_layer[1][i]
         e = open_func(shot=shot, translation=translation, kon=kon, syn_scale=syn_scale)
         config = (kon, syn_scale, coop, K)
-        globals()[ls[0]+l].append((e, config))
+        o_wo.append((e, config))
         m += 1
 
         for j in range(len(z)):
@@ -218,14 +221,14 @@ def performance_d(open_func, closed_func, n=2, shot=1, translation=True, l='_lab
             coop = z[j]
             e = open_func(shot=shot, translation=translation, coop=coop, kon=kon, syn_scale=syn_scale)
             config = (kon, syn_scale, coop, K)
-            globals()[ls[1]+l].append((e, config))
+            o_with.append((e, config))
             m += 1
 
             for s in range(len(w)):
                 K = w[s]
                 e = closed_func(shot=shot, translation=translation, coop=coop, kon=kon, syn_scale=syn_scale, K=K)
                 config = (kon, syn_scale, coop, K)
-                globals()[ls[2]+l].append((e, config))
+                c_with.append((e, config))
                 m += 1
 
         coop = 0
@@ -233,9 +236,30 @@ def performance_d(open_func, closed_func, n=2, shot=1, translation=True, l='_lab
             K = w[j]
             e = closed_func(shot=shot, translation=translation, kon=kon, syn_scale=syn_scale, K=K)
             config = (kon, syn_scale, coop, K)
-            globals()[ls[3]+l].append((e, config))
+            c_wo.append((e, config))
             m += 1
 
     end = time.time()
     print(end-start)
     print(m)
+
+    return o_wo, o_with, c_wo, c_with
+
+def save_data(filename, data):
+    f = open(filename+'.txt', 'w')
+    for i in data:
+        f.write(str(i)+'\n')
+    f.close()
+    
+def read_data(filename):
+    f = open(filename, 'r')
+    lines = f.readlines()
+    LS= []
+    for i in lines:
+        ls = i.strip().split(', ')
+        ls = [float(x.strip('()')) for x in ls]
+        ls = [ls[0], ls[1:]]
+        LS.append(ls)
+
+    f.close()
+    return LS
