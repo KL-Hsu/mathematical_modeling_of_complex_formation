@@ -93,7 +93,7 @@ def draw_dimer_explore(lam1=0.027, lam2=0.027, lam3=0.027, K=0.05, c2=98, fold=2
         ax.yaxis.set_major_locator(ticker.MultipleLocator(1000))
         plt.ylim(0, 3800)
    
-    plt.legend(bbox_to_anchor=[1.1, 0.8])
+    plt.legend(bbox_to_anchor=[1.3, 0.8])
     plt.tick_params(width=5, length=6, labelsize=20)    
     plt.title('Heterodimer', font2)
     

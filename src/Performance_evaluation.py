@@ -115,7 +115,7 @@ class performance:
         recover_time = cal.recovery_time(P[2], p3[-1]*0.5, error_rate=0.001, time=time)
         return recover_time
 
-def performance_ss(open_func, closed_func, n=2, fc=1, l='_label'):
+def evaluation_ss(open_func, closed_func, n=2, fc=1, l='_label'):
     start = time.time()
     n = n
 
@@ -179,7 +179,7 @@ def performance_ss(open_func, closed_func, n=2, fc=1, l='_label'):
     print(m)
     return o_wo, o_with, c_wo, c_with
 
-def performance_d(open_func, closed_func, n=2, shot=1, translation=True, l='_label'):
+def evaluation_d(open_func, closed_func, n=2, shot=1, translation=True, l='_label'):
     start = time.time()
     n = n
 

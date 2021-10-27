@@ -82,7 +82,7 @@ def draw_dimer_response(lam1=0.027, lam2=0.027, lam3=0.027, K=0.05, c2=98, fold=
         ax.yaxis.set_major_locator(ticker.MultipleLocator(1000))
         plt.ylim(0, 3800)
         
-    plt.legend(bbox_to_anchor=[1.1, 0.8])
+    plt.legend(bbox_to_anchor=[1.3, 0.8])
     #ax.xaxis.set_major_locator(ticker.MultipleLocator(50))
     plt.tick_params(width=5, length=6, labelsize=20)
     plt.title('Heterodimer response', font2)
@@ -182,7 +182,7 @@ def draw_trimer_response(scenario_ls, xmiddle=98, who='c1'):
     plt.ylabel('Normalized Abundance', font2)
     plt.xlabel('Relative $p_%s$ synthesis rate (%%)'%who[-1], font2)
     plt.ylim(0, 1.5)
-    plt.legend(bbox_to_anchor=(1.2, 1))
+    plt.legend(bbox_to_anchor=(1.3, 1))
     plt.show()
 
 class controllability:
