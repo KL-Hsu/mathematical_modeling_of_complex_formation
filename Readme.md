@@ -29,7 +29,7 @@ We recommend that you use Python 3.7 and Jupyter Notebook to run the simulations
 
 ### Python Interactive mode
 
-- Alternatively, you can directly use the Python interactive mode without Jupyter Notebook. Using command line and change directory to the ./mathematical_modeling_of_complex_formation/
+- Alternatively, you can directly use the Python interactive mode without Jupyter Notebook. Use command line and change directory to the ./mathematical_modeling_of_complex_formation/
 
 - Enter the Python interactive mode:
 
@@ -51,13 +51,13 @@ We recommend that you use Python 3.7 and Jupyter Notebook to run the simulations
 
 ## Documentation 
 
-We provides functions to explore the robustness and controllability of protein complex formation systems and evaluate/compare the performance of given circuits in eight system's characteristics. All the source codes are available in src/.
+We provide functions to explore the robustness and controllability of protein complex formation systems and evaluate/compare the performance of given circuits in eight system's characteristics. All the source codes are available in src/.
 
 Model parameters: 
 
-- lam1, lam2 and lam3 are the degradation rate constant ($hour^{-1}$) of p1 monomer, p2 monomer and dimer.
+- lam1, lam2 and lam3 are the degradation rate constants ($hour^{-1}$) of p1 monomer, p2 monomer and dimer.
 - K is the association constant ($nM^{-1}$) of p1 and p2.
-- c1 and c2 are the synthesis rate ($nM/hour$)  of p1 and p2 monomer.
+- c1 and c2 are the synthesis rates ($nM/hour$)  of p1 and p2 monomers.
 
 ### Robustness
 
