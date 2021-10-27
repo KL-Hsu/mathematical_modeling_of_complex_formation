@@ -1,6 +1,5 @@
 from matplotlib import pyplot as plt
 import matplotlib.ticker as ticker
-from mpl_toolkits.mplot3d import axes3d
 from numpy import sqrt, arange
 import numpy as np
 import pylab as pl
