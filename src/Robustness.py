@@ -209,11 +209,11 @@ def tolerance_score_heatmap(lam1=0.027, lam3=0.027,c_min=1,c_max=1000,k_min=0.00
 def tolerance_score_heatmap3D(lam_min=0.027, lam_max=0.7, k_min=0.001, k_max=1, c2=10, offset=0, resolution=100):
     font1 = {'family' : 'Times New Roman',
     'weight' : 'normal',
-    'size'   : 16}
+    'size'   : 25}
     
     font2 = {'family' : 'Times New Roman',
     'weight' : 'normal',
-    'size'   : 12}
+    'size'   : 18}
 
 
     fig = plt.figure(figsize=(12, 9))
